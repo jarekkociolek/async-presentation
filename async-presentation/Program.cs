@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace AsyncAwaitConsole
+namespace async_presentation
 {
     class Program
     {
@@ -9,7 +9,6 @@ namespace AsyncAwaitConsole
         {
             var t = Task.Run(() => MainAsync(args)).Result;
         }
-
 
         static async Task<string> MainAsync(string[] args)
         {
