@@ -15,7 +15,7 @@ namespace async_presentation
             try
             {
                 Task task = GetAsync("");
-
+                
                 return "";
             }
             catch (Exception)
