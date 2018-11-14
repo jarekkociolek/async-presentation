@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace async_presentation
@@ -12,23 +13,28 @@ namespace async_presentation
 
         static async Task<string> MainAsync(string[] args)
         {
-            try
-            {
-                Task task = GetAsync("");
-                
-                return "";
-            }
-            catch (Exception)
-            {
+            var ipHostEntry = await MyAsyncMethod();
 
-                throw;
-            }
+            return "";
         }
 
-        static async Task GetAsync(string url)
+        static Task<IPHostEntry> MyAsyncMethod()
         {
-            await Task.Delay(100);
-            throw new Exception();
+            var tcs = new TaskCompletionSource<IPHostEntry>();
+
+            Dns.BeginGetHostEntry("http://google.com", asyncResult => {
+                try
+                {
+                    IPHostEntry result = Dns.EndGetHostEntry(asyncResult);
+                    tcs.SetResult(result);
+                }
+                catch(Exception ex)
+                {
+                    tcs.SetException(ex);
+                }
+            }, null);
+
+            return tcs.Task;
         }
     }
 }
